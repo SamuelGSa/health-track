@@ -1,7 +1,7 @@
 package com.anima.safranci.healthManagementSystem.controller;
 
-import com.anima.safranci.healthManagementSystem.dto.patient.request.PatientDTO;
-import com.anima.safranci.healthManagementSystem.dto.patient.response.PatientResponseDTO;
+import com.anima.safranci.healthManagementSystem.dto.patient.request.PatientRequest;
+import com.anima.safranci.healthManagementSystem.dto.patient.response.PatientSaveResponse;
 import com.anima.safranci.healthManagementSystem.persistence.entity.Patient;
 import com.anima.safranci.healthManagementSystem.service.PatientService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,16 +35,23 @@ public class PatientController {
 
 
     @GetMapping
-    public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
+    public ResponseEntity<List<PatientRequest>> getAllPatients() {
         var listaUsuarios = patientService.getAllPatients();
         return new ResponseEntity<>(listaUsuarios, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<PatientRequest>> getUserById(@PathVariable Long id) {
+
+        var usuarioSolicitado = patientService.getPatientById(id);
+        return new ResponseEntity<>(usuarioSolicitado, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<PatientResponseDTO> savePatient( @RequestBody PatientDTO patientDTO) {
+    public ResponseEntity<PatientSaveResponse> savePatient(@RequestBody PatientRequest patientDTO) {
 
         var usuarioSalvo = patientService.savePatient(patientDTO);
-        return new ResponseEntity<>(usuarioSalvo,HttpStatus.CREATED);
+        return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -46,23 +60,22 @@ public class PatientController {
         try {
             patientService.detelePatientById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch (NoSuchElementException nsee){
+        } catch (NoSuchElementException nsee) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Usuario> updateUserById(@PathVariable Long id, @RequestBody UsuarioDTO novoUsuario) {
-//
-//        try {
-//            usuarioService.atualizaUsuarioPorId(id,novoUsuario) ;
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }catch (NoSuchElementException nsee){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Patient> updateUserById(@PathVariable Long id, @RequestBody PatientRequest patientDTO) {
+
+        try {
+            patientService.atualizaUsuarioPorId(id, patientDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException nsee) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
 
 }

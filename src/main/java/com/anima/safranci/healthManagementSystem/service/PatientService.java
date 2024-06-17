@@ -1,19 +1,22 @@
 package com.anima.safranci.healthManagementSystem.service;
 
 
-import com.anima.safranci.healthManagementSystem.dto.patient.request.PatientDTO;
-import com.anima.safranci.healthManagementSystem.dto.patient.response.PatientResponseDTO;
-import com.anima.safranci.healthManagementSystem.persistence.entity.Patient;
+import com.anima.safranci.healthManagementSystem.dto.patient.request.PatientRequest;
+import com.anima.safranci.healthManagementSystem.dto.patient.response.PatientSaveResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PatientService {
 
-    List<PatientResponseDTO> getAllPatients();
+    List<PatientRequest> getAllPatients();
 
-    PatientResponseDTO savePatient(PatientDTO patientDTO);
+    PatientSaveResponse savePatient(PatientRequest patientDTO);
+
+    Optional<PatientRequest> getPatientById(Long id);
+
 
     void detelePatientById(Long id);
 
+    void atualizaUsuarioPorId(Long id, PatientRequest patientDTO);
 }

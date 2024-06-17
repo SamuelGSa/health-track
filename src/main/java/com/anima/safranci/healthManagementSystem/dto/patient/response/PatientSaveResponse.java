@@ -1,6 +1,5 @@
 package com.anima.safranci.healthManagementSystem.dto.patient.response;
 
-import com.anima.safranci.healthManagementSystem.dto.patient.request.EmergencyContactDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,19 +10,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatientResponseDTO {
+public class PatientSaveResponse {
 
     @JsonProperty("nome")
     private String firstName;
 
     @JsonProperty("sobrenome")
     private String lastName;
-
-    @JsonProperty("dataNascimento")
-    private String birthDate;
-
-    @JsonProperty("contatoEmergencia")
-    private EmergencyContactDTO emergencyContact;
-
 }
-

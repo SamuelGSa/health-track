@@ -13,7 +13,10 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatientDTO {
+public class PatientRequest {
+
+    @JsonProperty("id")
+    private long id;
 
     @JsonProperty("nome")
     private String firstName;
@@ -35,5 +38,4 @@ public class PatientDTO {
 
     @JsonProperty("contatoEmergencia")
     private EmergencyContactDTO emergencyContact;
-
 }
