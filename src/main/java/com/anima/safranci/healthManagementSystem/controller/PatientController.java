@@ -30,7 +30,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PatientController {
 
-    @Autowired
     private final PatientService patientService;
 
 
